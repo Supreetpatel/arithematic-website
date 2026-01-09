@@ -190,7 +190,7 @@ export default function SprintMathGame() {
           </div>
           <button
             onClick={startGame}
-            className="w-full px-8 py-4 bg-green-500 hover:bg-green-600 rounded-lg text-2xl font-bold transition transform hover:scale-105"
+            className="w-full px-8 py-4 bg-green-500 hover:bg-green-600 rounded-lg text-2xl font-bold transition transform hover:scale-105 cursor-pointer"
           >
             Start Game
           </button>
