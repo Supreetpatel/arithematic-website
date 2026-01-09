@@ -77,6 +77,20 @@ export default function SprintMathGame() {
     setShowModal(false);
   };
 
+  // Prevent reload while game is playing
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (gameStarted && !finished) {
+        e.preventDefault();
+        e.returnValue = "";
+        return "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [gameStarted, finished]);
+
   // Timer
   useEffect(() => {
     if (finished || !mounted || !gameStarted) return;
@@ -210,12 +224,6 @@ export default function SprintMathGame() {
                 Accuracy: {((score / TOTAL_QUESTIONS) * 100).toFixed(1)}%
               </p>
             </div>
-            <button
-              onClick={resetGame}
-              className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg text-lg font-semibold transition"
-            >
-              Back to Start
-            </button>
           </div>
         </div>
       )}
@@ -230,7 +238,7 @@ export default function SprintMathGame() {
             Question: {index + 1} / {TOTAL_QUESTIONS}
           </span>
           <span>
-            ⏱ {minutes}:{seconds.toString().padStart(2, "0")}
+            {minutes}:{seconds.toString().padStart(2, "0")}
           </span>
         </div>
 
