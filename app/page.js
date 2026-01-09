@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const TOTAL_QUESTIONS = 60;
 const MAX_TIME = 360; // 6 minutes in seconds
-const ADMIN_PASSWORD = "admin123"; // Change this to your desired password
+const ADMIN_PASSWORD = "Ko$123#ksac"; // Change this to your desired password
 
 // Generate medium-level math questions
 const generateQuestions = () => {
