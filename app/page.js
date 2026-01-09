@@ -20,7 +20,7 @@ const generateQuestions = () => {
     if (op === "+") answer = a + b;
     if (op === "-") answer = a - b;
     if (op === "*") answer = a * b;
-    if (op === "/") answer = a * b;
+    if (op === "/") answer = Math.round((a / b) * 10) / 10; // Round to 1 decimal
 
     questions.push({
       question: `${a} ${op} ${b}`,
@@ -75,6 +75,31 @@ export default function SprintMathGame() {
     setTime(0);
     setFinished(false);
     setShowModal(false);
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInput(value);
+
+    if (value === "") return;
+
+    const currentQuestion = questions[index];
+    const userAnswer = parseFloat(value);
+    const correctAnswer = parseFloat(currentQuestion.answer);
+
+    // Check if answer is correct (with tolerance for floating point)
+    if (Math.abs(userAnswer - correctAnswer) < 0.01) {
+      setScore(score + 1);
+
+      // Move to next question or finish game
+      if (index + 1 < TOTAL_QUESTIONS) {
+        setIndex(index + 1);
+        setInput("");
+      } else {
+        setFinished(true);
+        setShowModal(true);
+      }
+    }
   };
 
   // Prevent reload while game is playing
@@ -254,7 +279,7 @@ export default function SprintMathGame() {
               <input
                 type="number"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={handleInputChange}
                 autoFocus
                 className="w-full px-4 py-3 rounded-lg text-black text-xl outline-none bg-white"
                 placeholder="Your answer"
